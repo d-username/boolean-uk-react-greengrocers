@@ -1,61 +1,91 @@
 import './styles/reset.css'
 import './styles/index.css'
 
-import initialStoreItems from './store-items'
+import Header from './Header'
+import Main from './Main'
+import Icons from './Icons'
 
-/*
-Here's what a store item should look like
-{
-  id: '001-beetroot',
-  name: 'beetroot',
-  price: 0.35
-}
-
-What should a cart item look like? 🤔
-*/
-
-console.log(initialStoreItems)
+import { useState } from 'react'
 
 export default function App() {
-  // Setup state here...
+  const [cart, setCart] = useState([])
+  const [cartTotal, setCartTotal] = useState(0)
+
+  const addToCart = item => {
+    if (!isItemInCart(item)) {
+      setCart([...cart, createCartItem(item)])
+      let newTotal = Number((cartTotal + item.price).toFixed(2))
+      setCartTotal(newTotal)
+    }
+  }
+
+  function isItemInCart(item) {
+    let itemIsInCart = false
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].item.id === item.id) {
+        itemIsInCart = true
+      }
+    }
+    return itemIsInCart
+  }
+
+  const createCartItem = item => {
+    let cartItem = {
+      item: item,
+      quantityInCart: 1
+    }
+    return cartItem
+  }
+
+  const increaseQuantity = target => {
+    let updatedCart = cart.map(cartItem => {
+      if (cartItem === target) {
+        cartItem.quantityInCart++
+      }
+      return cartItem
+    })
+    setCart(updatedCart)
+    let newTotal = Number((cartTotal + target.item.price).toFixed(2))
+    setCartTotal(newTotal)
+  }
+
+  const decreaseQuantity = target => {
+    if (target.quantityInCart > 1) {
+      let updatedCart = cart.map(cartItem => {
+        if (cartItem.item.id === target.item.id) {
+          cartItem.quantityInCart--
+        }
+        return cartItem
+      })
+      setCart(updatedCart)
+      let newTotal = Number((cartTotal - target.item.price).toFixed(2))
+      setCartTotal(newTotal)
+    } else if (target.quantityInCart === 1) {
+      removeFromCart(target)
+    }
+  }
+
+  const removeFromCart = target => {
+    const updatedCart = cart.filter(cartItem => {
+      if (cartItem.item.id !== target.item.id) {
+        return cartItem
+      }
+    })
+    setCart(updatedCart)
+    let newTotal = Number((cartTotal - target.item.price).toFixed(2))
+    setCartTotal(newTotal)
+  }
 
   return (
     <>
-      <header id="store">
-        <h1>Greengrocers</h1>
-        <ul className="item-list store--item-list">
-          {/* Wrtite some code here... */}
-        </ul>
-      </header>
-      <main id="cart">
-        <h2>Your Cart</h2>
-        <div className="cart--item-list-container">
-          <ul className="item-list cart--item-list">
-            {/* Wrtite some code here... */}
-          </ul>
-        </div>
-        <div className="total-section">
-          <div>
-            <h3>Total</h3>
-          </div>
-          <div>
-            <span className="total-number">£0.00</span>
-          </div>
-        </div>
-      </main>
-      <div>
-        Icons made by
-        <a
-          href="https://www.flaticon.com/authors/icongeek26"
-          title="Icongeek26"
-        >
-          Icongeek26
-        </a>
-        from
-        <a href="https://www.flaticon.com/" title="Flaticon">
-          www.flaticon.com
-        </a>
-      </div>
+      <Header addToCart={addToCart} />
+      <Main
+        cart={cart}
+        increaseQuantity={increaseQuantity}
+        decreaseQuantity={decreaseQuantity}
+        cartTotal={cartTotal}
+      />
+      <Icons />
     </>
   )
 }
