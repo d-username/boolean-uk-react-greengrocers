@@ -14,12 +14,11 @@ export default function App() {
   const addToCart = item => {
     if (!isItemInCart(item)) {
       setCart([...cart, createCartItem(item)])
-      let newTotal = Number((cartTotal + item.price).toFixed(2))
-      setCartTotal(newTotal)
+      setCartTotal(cartTotal + item.price)
     }
   }
 
-  function isItemInCart(item) {
+  const isItemInCart = item => {
     let itemIsInCart = false
     for (let i = 0; i < cart.length; i++) {
       if (cart[i].item.id === item.id) {
@@ -45,8 +44,7 @@ export default function App() {
       return cartItem
     })
     setCart(updatedCart)
-    let newTotal = Number((cartTotal + target.item.price).toFixed(2))
-    setCartTotal(newTotal)
+    setCartTotal(cartTotal + target.item.price)
   }
 
   const decreaseQuantity = target => {
@@ -58,8 +56,7 @@ export default function App() {
         return cartItem
       })
       setCart(updatedCart)
-      let newTotal = Number((cartTotal - target.item.price).toFixed(2))
-      setCartTotal(newTotal)
+      setCartTotal(cartTotal - target.item.price)
     } else if (target.quantityInCart === 1) {
       removeFromCart(target)
     }
@@ -72,8 +69,7 @@ export default function App() {
       }
     })
     setCart(updatedCart)
-    let newTotal = Number((cartTotal - target.item.price).toFixed(2))
-    setCartTotal(newTotal)
+    setCartTotal(cartTotal - target.item.price)
   }
 
   return (

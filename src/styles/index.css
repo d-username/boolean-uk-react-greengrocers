@@ -22,6 +22,19 @@ button {
 
 /* Store */
 
+.center {
+  display: grid;
+  place-items: center;
+}
+
+.sortContainer,
+.filterContainer {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  padding-bottom: 10px;
+}
+
 #store {
   height: 40vh;
   padding: 1rem;

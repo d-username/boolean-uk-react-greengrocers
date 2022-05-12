@@ -16,7 +16,7 @@ function Main(props) {
           <h3>Total</h3>
         </div>
         <div>
-          <span className="total-number">£ {props.cartTotal}</span>
+          <span className="total-number">£ {props.cartTotal.toFixed(2)}</span>
         </div>
       </div>
     </main>
