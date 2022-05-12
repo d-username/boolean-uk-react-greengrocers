@@ -32,7 +32,11 @@ function Header(props) {
     <header id="store">
       <h1>Greengrocers</h1>
       <Filters setFilterBy={setFilterBy} setSortBy={setSortBy} />
-      <Store itemsToDisplay={itemsToDisplay} addToCart={props.addToCart} />
+      <Store
+        itemsToDisplay={itemsToDisplay}
+        addToCart={props.addToCart}
+        setShowInfo={props.setShowInfo}
+      />
     </header>
   )
 }

@@ -6,7 +6,10 @@ function StoreItem(props) {
         <img src={`/assets/icons/${props.item.id}.svg`} alt={props.item.name} />
       </div>
       <p>{props.item.price}</p>
-      <button onClick={() => props.addToCart(props.item)}>Add to cart</button>
+      <div className="store--buttons-add-info">
+        <button onClick={() => props.addToCart(props.item)}>Add to cart</button>
+        <button onClick={() => props.setShowInfo(props.item)}>Info</button>
+      </div>
     </li>
   )
 }

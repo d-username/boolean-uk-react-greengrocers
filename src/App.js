@@ -4,12 +4,14 @@ import './styles/index.css'
 import Header from './Header'
 import Main from './Main'
 import Icons from './Icons'
+import Info from './Info'
 
 import { useState } from 'react'
 
 export default function App() {
   const [cart, setCart] = useState([])
   const [cartTotal, setCartTotal] = useState(0)
+  const [showInfo, setShowInfo] = useState('')
 
   const addToCart = item => {
     if (!isItemInCart(item)) {
@@ -74,7 +76,12 @@ export default function App() {
 
   return (
     <>
-      <Header addToCart={addToCart} />
+      <Header addToCart={addToCart} setShowInfo={setShowInfo} />
+      <Info
+        showInfo={showInfo}
+        setShowInfo={setShowInfo}
+        addToCart={addToCart}
+      />
       <Main
         cart={cart}
         increaseQuantity={increaseQuantity}
