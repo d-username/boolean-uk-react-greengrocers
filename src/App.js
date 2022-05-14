@@ -10,13 +10,11 @@ import { useState } from 'react'
 
 export default function App() {
   const [cart, setCart] = useState([])
-  const [cartTotal, setCartTotal] = useState(0)
   const [showInfo, setShowInfo] = useState('')
 
   const addToCart = item => {
     if (!isItemInCart(item)) {
       setCart([...cart, createCartItem(item)])
-      setCartTotal(cartTotal + item.price)
     }
   }
 
@@ -46,7 +44,6 @@ export default function App() {
       return cartItem
     })
     setCart(updatedCart)
-    setCartTotal(cartTotal + target.item.price)
   }
 
   const decreaseQuantity = target => {
@@ -58,7 +55,6 @@ export default function App() {
         return cartItem
       })
       setCart(updatedCart)
-      setCartTotal(cartTotal - target.item.price)
     } else if (target.quantityInCart === 1) {
       removeFromCart(target)
     }
@@ -71,7 +67,6 @@ export default function App() {
       }
     })
     setCart(updatedCart)
-    setCartTotal(cartTotal - target.item.price)
   }
 
   return (
@@ -86,7 +81,6 @@ export default function App() {
         cart={cart}
         increaseQuantity={increaseQuantity}
         decreaseQuantity={decreaseQuantity}
-        cartTotal={cartTotal}
       />
       <Icons />
     </>

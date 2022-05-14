@@ -1,6 +1,17 @@
 import Cart from './Cart'
 
 function Main(props) {
+  const calculateTotal = () => {
+    const pricePerCartItem = props.cart.map(
+      cartItem => cartItem.item.price * cartItem.quantityInCart
+    )
+    let total = 0
+    pricePerCartItem.forEach(price => {
+      total += price
+    })
+    return parseFloat(total).toFixed(2)
+  }
+
   return (
     <main id="cart">
       <h2>Your Cart</h2>
@@ -16,7 +27,7 @@ function Main(props) {
           <h3>Total</h3>
         </div>
         <div>
-          <span className="total-number">£ {props.cartTotal.toFixed(2)}</span>
+          <span className="total-number">£ {calculateTotal()}</span>
         </div>
       </div>
     </main>
