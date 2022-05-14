@@ -6,7 +6,7 @@ function Main(props) {
       cartItem => cartItem.item.price * cartItem.quantityInCart
     )
     let total = 0
-    pricePerCartItem.forEach(price => {
+    pricePerCartItem.map(price => {
       total += price
     })
     return parseFloat(total).toFixed(2)

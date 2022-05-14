@@ -6,27 +6,35 @@ import { useState } from 'react'
 
 function Header(props) {
   const [storeItems, setStoreItems] = useState(initialStoreItems)
-  const [filterBy, setFilterBy] = useState('')
+  const [filterBy, setFilterBy] = useState('all')
   const [sortBy, setSortBy] = useState('')
 
-  const getFruits = array => array.filter(item => item.type === 'fruit')
-  const getVegetables = array => array.filter(item => item.type === 'vegetable')
-  const sortByAbc = array => array.sort((a, b) => (a.name > b.name ? 1 : -1))
-  const sortByPriceIncreasing = array =>
-    array.sort((a, b) => (a.price > b.price ? 1 : -1))
-  const sortByPriceDecreasing = array =>
-    array.sort((a, b) => (a.price > b.price ? -1 : 1))
-
   let itemsToDisplay = storeItems
+  itemsToDisplay = filter(filterBy)
+  itemsToDisplay = sort(itemsToDisplay, sortBy)
 
-  if (filterBy === 'fruit') itemsToDisplay = getFruits(itemsToDisplay)
-  if (filterBy === 'vegetable') itemsToDisplay = getVegetables(itemsToDisplay)
-  if (filterBy === 'all') itemsToDisplay = storeItems
-  if (sortBy === 'abc') itemsToDisplay = sortByAbc(itemsToDisplay)
-  if (sortBy === 'priceIncreasing')
-    itemsToDisplay = sortByPriceIncreasing(itemsToDisplay)
-  if (sortBy === 'priceDecreasing')
-    itemsToDisplay = sortByPriceDecreasing(itemsToDisplay)
+  function filter(by) {
+    if (by === 'all') {
+      return storeItems
+    } else {
+      return storeItems.filter(item => item.type === by)
+    }
+  }
+
+  function sort(items, by) {
+    return items.sort((a, b) => {
+      switch (by) {
+        case 'abc':
+          return a.name > b.name ? 1 : -1
+
+        case 'priceIncreasing':
+          return a.price - b.price
+
+        case 'priceDecreasing':
+          return b.price - a.price
+      }
+    })
+  }
 
   return (
     <header id="store">
